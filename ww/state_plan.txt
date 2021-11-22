@@ -1,0 +1,89 @@
+StateMachine 상태 순서 : 
+BlockingBarState / StopState -> 
+NormalDrivingState -> (정지선 인식 후)
+StopState(직선코스의 정지선) ->
+StarightState ->
+CloserCornerState(2차 곡선코스 진입) -> 
+NormalDrivingState -> 
+????(Normal로 2차곡선 코스 나오면 진행방향의 반대로 이동해서. 그처리를 해줄 친구.) -> 
+NormalDrivingState ->
+StopState->
+StarightState (T자 코스를 향해가는 중.) -> 
+NormalDrivingState ->
+CloserCornerState (T자 코스 진입) -> 
+NormalDrivingState(이 상태를 조금 만짐으로써 T자 코스가 완료 된다면.) -> 
+NormalDrivingState(T자 끝나고 일반모드면 방향 맞게감.) -> 
+LeftTurnState(장애물하러가는코스의 교차로) -> 
+NormalDrivingState + DetectStopSignState -> 
+StopState->
+NormalDrivingState + AvoidObstacleState (장애물 피하기 코스) -> 
+NormalDrivingState ->
+ParallelParkingState ->
+NormalDrivingState + DetectStopSignState-> StopState
+
+
+상태1. BlockingBarState
+	- 블로킹바가 있으면 true, 없으면 false
+	- outcome = [stop, normalDriving]
+	- stop : StopState (상태 8) 로 됨.
+		- 정지된 상태
+	- NormalDriving : NormalDrivingState (상태 2) 로 됨.
+		- 주행 시작
+		
+상태2. NormalDrivingState
+	- 일반 주행모드
+	- outcome = [ normalDriving , goStraight, goCorner(?), turnLeft, avoid , 평행 주차, stop]
+	- NormalDriving : NormalDrivingState (상태 2) 로 됨.
+		- 일반 주행모드
+	- goStaright : StarightState (상태 3) 로 됨.
+		- 직진 하는 모드
+	- goCorner : CloserCornerState (상태 4) 로 됨.
+		- 정지선을 향해 가는 모드
+	- turnLeft : LeftTurnState
+		- 교차로에서 좌회전.
+	- avoid : AvoidObstacleState
+		- 장애물 피하는 모드
+	- 평행 주차 : 포기하셈. 안할거야!
+	- stop : StopState (상태 8) 로 됨.
+		- 정지된 상태
+상태3. StarightState
+	- 몇초 정지 후 1초(정도) 직진 모드
+	- outcome = [ normalDriving]
+	- NormalDriving : NormalDrivingState (상태 2)로 됨.
+		- 일반 주행모드
+
+상태4. CloserCornerState
+	- 정지선을 향해 가는 모드
+	- outcome = [ normalDriving]
+	- NormalDriving : NormalDrivingState (상태 2)로 됨.
+		- 일반 주행모드
+		
+상태5. LeftTurnState
+	- 교차로에서 좌회전을 하는 모드
+	- outcome = [stop]
+	- stop : StopState (상태 8) 로 됨.
+		- 정지된 상태
+		
+상태6. AvoidObstacleState
+	- 장애물 피하는 모드
+	- outcome = [normalDriving]
+	- NormalDriving : NormalDrivingState (상태 2)로 됨.
+		- 일반 주행모드
+상태7. ParallelParkingState
+	- 평행주차모드	
+	- 오또카지ㅜ
+
+상태8. StopState
+	-정지 상태
+	- outcome = [normalDriving]
+	- NormalDriving : NormalDrivingState (상태 2)로 됨.
+		- 일반 주행모드
+		
+상태9. DetectStopSignState
+	- 정지 표지판 인식 상태
+	- outcome = [True, False]
+	- True : StopState (상태 8)로 됨.
+		- 정지상태
+	- False : NormalDriving (상태 2)로 됨.
+		- 일반 주행모드
+	
