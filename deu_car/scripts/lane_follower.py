@@ -33,7 +33,7 @@ class LineTracer:
         # v 값을 이미지에서 추출하여 값에 넣어줌.
         _, _, v = cv2.split(hsv_image)
         # 노란색 이미지의 범위를 지정.
-        v = cv2.inRange(v, 210, 220)
+        v = cv2.inRange(v, 220, 255)
 
         # 감지한 객체의 무게 중심을 화면에 찍는 변수
         # M은 리스트 형식이다.
@@ -41,8 +41,8 @@ class LineTracer:
         if M['m00'] > 0:
             self.cx = int(M['m10'] / M['m00'])
             cy = int(M['m01'] / M['m00'])
-            cv2.circle(origin_image, (self.cx, cy), 20, (0, 255, 0), -1)
-            self.cx = self.cx - 340
+            cv2.circle(origin_image, (self.cx, cy), 20, (0, 0, 255), -1)
+            self.cx = self.cx - 320
 
         # cv2로 변환했던 이미지를 imgmsg 로 재 변환.
         origin_image = self.bridge.cv2_to_imgmsg(origin_image)
@@ -62,15 +62,15 @@ class LineTracer:
 
         # 마스크 범위 지정.
         h, w = mask.shape
-        search_top = 3 * h / 4
-        search_bot = 3 * h / 4 + 20
-        mask[0:search_top, 0:w] = 0
-        mask[search_bot:h, 0:w] = 0
+        #search_top = 3 * h / 4
+        #search_bot = 3 * h / 4 + 20
+        #mask[0:search_top, 0:w] = 0
+        #mask[search_bot:h, 0:w] = 0
 
-        # mask[0:h * 3 / 5, 0:w] = 0
-        # mask[h - (h / 8):h, 0:w] = 0
-        # mask[0:h, 0:w / 4] = 0
-        # mask[0:h, w - (w / 4):w] = 0
+        mask[0:h * 3 / 5, 0:w] = 0
+        mask[h - (h / 8):h, 0:w] = 0
+        mask[0:h, 0:w / 4] = 0
+        mask[0:h, w - (w / 4):w] = 0
 
         # 127값을 넘는 값들은 255(흰색), 아래는 0으로 이진화한다.
         _, thr = cv2.threshold(mask, 127, 255, 0)

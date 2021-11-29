@@ -50,7 +50,7 @@ class DetectStopLine:
         mask = cv2.rectangle(mask, (x, y), (x + w, y + h), (0, 0, 255), 2)
         cv2.drawContours(mask, [cnt], 0, (255, 255, 0), 1)
 
-        cv2.imshow("image", image)
+        #cv2.imshow("image", image)
         #cv2.imshow("hsv", hsv)
         #cv2.imshow("window", mask)
         cv2.waitKey(3)

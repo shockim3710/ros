@@ -133,7 +133,7 @@ class AvoidObstacle(State):
         drive_controller = RobotDriveController()
 
         # 정면에 없고 오른쪽 대각선 방향에도 없을경우, 각 값이 2 이하일 경우 주행 유지
-        if detect_obstacle.range_ahead > 2 or detect_obstacle.range_right > 2 or \
+        if detect_obstacle.range_ahead > 1 or detect_obstacle.range_right > 1 or \
                 ((math.isnan(detect_obstacle.range_ahead)) and math.isnan(detect_obstacle.range_right)):
             value = False
             detect_obstacle.stop_pub.publish(value)
@@ -144,6 +144,7 @@ class AvoidObstacle(State):
             detect_obstacle.stop_pub.publish(value)
             drive_controller.set_velocity(0)
             print('stop')
+            rospy.sleep(4)
 
         return 'success'
 
@@ -154,14 +155,17 @@ class DetectStopSign(State):
 
     def execute(self, ud):
         drive_controller = RobotDriveController()
-        ic = ImageConverter()
-        if ic.match:
-            drive_controller.set_velocity(0)
-        else:
-            pass
-
+        stop_sign_finder = ImageConverter()
+        countfloor = 0
+        if len(stop_sign_finder.contours) == 0:
+            stop_sign_finder.drive_controller.set_velocity(0)
+            print('stop')
         rospy.sleep(3)
-        return 'success'
+
+        print('go!')
+        stop_sign_finder.drive_controller.set_velocity(1)
+
+        return "success"
 
 
 class RightAngleParking(State):

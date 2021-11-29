@@ -12,7 +12,7 @@ class DetectObstacle:
     def __init__(self):
         self.range_ahead = 0
         self.range_right = 0
-        self.scan_sub = rospy.Subscriber('scan', LaserScan, self.scan_callback)
+        self.scan_sub = rospy.Subscriber('scan', LaserScan, self.scanl_callback)
         self.stop_pub = rospy.Publisher('stop_sign', Bool, queue_size=1)
         self.drive_controller = RobotDriveController()
 
