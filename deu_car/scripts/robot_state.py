@@ -161,14 +161,12 @@ class Obstacle(State):
         obstacle = ObstacleStop()
         drive_controller = RobotDriveController()
 
-        # 정면에 없고 오른쪽 대각선 방향에도 없을경우, 각 값이 2 이하일 경우 주행 유지
         if obstacle.range_ahead > 1 or obstacle.range_right > 1 or \
                 ((math.isnan(obstacle.range_ahead)) and math.isnan(obstacle.range_right)):
             value = False
             obstacle.stop_pub.publish(value)
 
             print('GO')
-        # 아니면 정지 토픽 발행
         else:
             value = True
             obstacle.stop_pub.publish(value)
