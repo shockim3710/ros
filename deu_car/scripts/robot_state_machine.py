@@ -2,24 +2,19 @@
 
 import rospy
 from smach import StateMachine
-from define_robot_state import SettingLane, DetectBlockingBar, LaneTrace, AvoidObstacle, DetectStopSign, \
-    RightAngleParking, ParallelParking
+from robot_state import SettingLine, Bar, Line, Sign, Obstacle
 
 if __name__ == "__main__":
     rospy.init_node('test_node')
     driving_test_site = StateMachine(outcomes=['success'])
     with driving_test_site:
-        StateMachine.add('SETTING_LANE', SettingLane(), transitions={'success': 'DETECT_BLOCKING_BAR'})
-        StateMachine.add('DETECT_BLOCKING_BAR', DetectBlockingBar(), transitions={'success': 'LANE_TRACE1'})
-        StateMachine.add('LANE_TRACE1', LaneTrace(), transitions={'success': 'DETECT_STOP_SIGN1'})
-        # StateMachine.add('RIGHT_ANGLE_PARKING', RightAngleParking(), transitions={'success': 'DETECT_OBSTACLE'})
-        StateMachine.add('DETECT_STOP_SIGN1', DetectStopSign(), transitions={'success': 'LANE_TRACE2'})
-        StateMachine.add('LANE_TRACE2', LaneTrace(), transitions={'success': 'DETECT_OBSTACLE'})
-        StateMachine.add('DETECT_OBSTACLE', AvoidObstacle(), transitions={'success': 'LANE_TRACE3'})
-        StateMachine.add('LANE_TRACE3', LaneTrace(), transitions={'success': 'DETECT_STOP_SIGN2'})
-        # StateMachine.add('PARALLEL_PARKING', ParallelParking(), transitions={'success': 'DETECT_STOP_SIGN'})
-        StateMachine.add('DETECT_STOP_SIGN2', DetectStopSign(), transitions={'success': 'success'})
-        # StateMachine.add('') ....
+        StateMachine.add('SettingLine', SettingLine(), transitions={'success': 'Bar'})
+        StateMachine.add('Bar', Bar(), transitions={'success': 'Sign1'})
+        StateMachine.add('Line1', Line(), transitions={'success': 'Sign1'})
+        StateMachine.add('Sign1', Sign(), transitions={'success': 'Obstacle'})
+        StateMachine.add('Obstacle', Obstacle(), transitions={'success': 'Line2'})
+        StateMachine.add('Line2', Line(), transitions={'success': 'Sign2'})
+        StateMachine.add('Sign2', Sign(), transitions={'success': 'success'})
 
     driving_test_site.execute()
     rospy.spin()
