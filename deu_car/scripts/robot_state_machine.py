@@ -9,7 +9,7 @@ if __name__ == "__main__":
     driving_test_site = StateMachine(outcomes=['success'])
     with driving_test_site:
         StateMachine.add('SettingLine', SettingLine(), transitions={'success': 'Bar'})
-        StateMachine.add('Bar', Bar(), transitions={'success': 'Sign1'})
+        StateMachine.add('Bar', Bar(), transitions={'success': 'Line1'})
         StateMachine.add('Line1', Line(), transitions={'success': 'Sign1'})
         StateMachine.add('Sign1', Sign(), transitions={'success': 'Obstacle'})
         StateMachine.add('Obstacle', Obstacle(), transitions={'success': 'Line2'})
