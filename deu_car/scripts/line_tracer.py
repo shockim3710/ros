@@ -13,7 +13,7 @@ class LineTracer:
         self.bridge = cv_bridge.CvBridge()
         self.image_pub = rospy.Publisher(image_topic + "/circle", Image, queue_size=1)
         self.image_sub = rospy.Subscriber(image_topic, Image, self.image_callback)
-        self.stop_sub = rospy.Subscriber('camera/rgb/image_raw', Image, self.image_callback2) # 정지선 인식을 위한 중앙 카메라 사용.
+        self.stop_sub = rospy.Subscriber('camera/rgb/image_raw', Image, self.image_callback2)
         self.t = image_topic
         self.cx = 0
         self.area = 0
