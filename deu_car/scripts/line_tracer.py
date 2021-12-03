@@ -83,7 +83,7 @@ if __name__ == '__main__':
             drive_controller.set_angular(0)
             count = count + 1
             print('LINE_STOP')
-            print(count)
+            #print(count)
             rospy.sleep(3)
 
         if count == 4:

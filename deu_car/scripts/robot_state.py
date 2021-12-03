@@ -30,7 +30,7 @@ class Bar(State):
         countfloor = 0
 
         while True:
-            print(len(bar.contours))
+            #print(len(bar.contours))
 
             if len(bar.contours) < 4 and countfloor > 3:
                 bar.drive_controller.set_velocity(1)
@@ -70,18 +70,19 @@ class Line(State):
         drive_controller = RobotDriveController()
 
         rate = rospy.Rate(10)
-        count = 0
+        count = 2
 
         while not rospy.is_shutdown():
             cx = (left_line.cx + right_line.cx) / 2
             err = -float(cx) / 100
+            #print(err)
 
             if stop_line.area > 9000.0:
                 drive_controller.set_velocity(0)
                 drive_controller.set_angular(0)
                 count = count + 1
                 print('LINE_STOP')
-                print(count)
+                #print(count)
 
                 rospy.sleep(3)
 
@@ -113,7 +114,7 @@ class Line(State):
 
                         break
 
-                print("END")
+                #print("END")
 
                 drive_controller.set_velocity(0)
 

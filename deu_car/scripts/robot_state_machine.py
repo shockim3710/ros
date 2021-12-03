@@ -11,9 +11,10 @@ if __name__ == "__main__":
         StateMachine.add('SettingLine', SettingLine(), transitions={'success': 'Bar'})
         StateMachine.add('Bar', Bar(), transitions={'success': 'Line1'})
         StateMachine.add('Line1', Line(), transitions={'success': 'Sign1'})
-        StateMachine.add('Sign1', Sign(), transitions={'success': 'Obstacle'})
-        StateMachine.add('Obstacle', Obstacle(), transitions={'success': 'Line2'})
-        StateMachine.add('Line2', Line(), transitions={'success': 'Sign2'})
+        StateMachine.add('Sign1', Sign(), transitions={'success': 'Line2'})
+        StateMachine.add('Line2', Line(), transitions={'success': 'Obstacle'})
+        StateMachine.add('Obstacle', Obstacle(), transitions={'success': 'Line3'})
+        StateMachine.add('Line3', Line(), transitions={'success': 'Sign2'})
         StateMachine.add('Sign2', Sign(), transitions={'success': 'success'})
 
     driving_test_site.execute()

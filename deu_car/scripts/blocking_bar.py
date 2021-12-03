@@ -29,7 +29,7 @@ class BlockingBar:
         block_bar_mask = img
         block_bar_mask[0:180, 0:w] = 0
         block_bar_mask[240:h, 0:w] = 0
-        cv2.imshow("Window", origin_img)
+        #cv2.imshow("Window", origin_img)
         cv2.waitKey(3)
         block_bar_mask, self.contours, hierarchy = cv2.findContours(block_bar_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
